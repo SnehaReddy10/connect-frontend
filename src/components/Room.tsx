@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useSocket from '../hooks/useSocket';
+import { TYPE_ID, TYPE_MESSAGE } from '../constants/Constants';
+import { v4 as uuidv4 } from 'uuid';
 
 const issue = {
   id: 7,
@@ -8,13 +11,56 @@ const issue = {
   The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.`,
   likes: 5,
   comments: [
-    { message: 'that would be great', likes: 2, liked: true, replies: [] },
+    {
+      message: 'that would be great',
+      likes: 2,
+      liked: true,
+      replies: [],
+      mine: true,
+    },
+    {
+      message: 'that would be great',
+      likes: 2,
+      liked: true,
+      replies: [],
+    },
     { message: 'that would be great', likes: 2, liked: false, replies: [] },
+    {
+      message: 'that would be great',
+      likes: 2,
+      liked: true,
+      replies: [],
+      mine: true,
+    },
   ],
 };
 
 const Room = () => {
   const [liked, setLiked] = useState([]);
+  const [targetId, setTargetId] = useState('');
+  const [latestMessages, setLatestMessages] = useState<any[]>([]);
+
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket) {
+      socket.onmessage = (event) => {
+        const parsedData = JSON.parse(event.data);
+        if (parsedData.type == TYPE_ID) {
+          setTargetId(parsedData.id);
+        } else if (parsedData.type == TYPE_MESSAGE) {
+          setLatestMessages((m) => [
+            ...m,
+            { id: uuidv4(), message: parsedData.message },
+          ]);
+        }
+      };
+    }
+  }, [socket]);
+
+  if (!socket) {
+    return <div>Connecting to server</div>;
+  }
   return (
     <div className="mt-10">
       <div className="flex flex-col gap-4">
@@ -22,44 +68,62 @@ const Room = () => {
           {issue.title}
         </h3>
         <p className="text-xxs text-slate-300">{issue.description}</p>
-        {issue.comments.map((comment: any, i: number) => (
-          <div className="flex justify-between">
-            <h4 className="text-slate-300 text-xs">{comment.message}</h4>
-            <div className="flex gap-2">
+        <div className="relative border border-slate-300 min-h-screen p-4 rounded-md">
+          {issue.comments.map((comment: any, i: number) => {
+            return (
               <div
-                className="flex gap-1"
-                onClick={() => {
-                  console.log(comment.liked);
-                  comment.liked = !comment.liked;
-                  console.log(comment.liked);
-                }}
+                style={{ top: `${i * 5}rem` }}
+                className={`absolute flex gap-10 w-max items-center justify-between border border-slate-300 ${
+                  comment.mine
+                    ? `rounded-ee-xl rounded-l-xl end-4`
+                    : 'rounded-ee-xl rounded-l-xl start-4'
+                } p-3 m-1`}
               >
-                {liked ? (
+                <div className="flex gap-2 items-center">
                   <img
-                    src="/assets/icons/like-outline.png"
-                    alt="like"
-                    className="h-3 w-3"
+                    src=""
+                    alt=""
+                    className="rounded-full border border-slate-300 h-8 w-8"
                   />
-                ) : (
-                  <img
-                    src="/assets/icons/like-full.png"
-                    alt="like"
-                    className="h-3 w-3"
-                  />
-                )}
-                <p className="text-xxs">{comment.likes}</p>
+                  <h4 className="text-slate-300 text-xs">{comment.message}</h4>
+                </div>
+                <div className="flex gap-2">
+                  <div
+                    className="flex gap-1"
+                    onClick={() => {
+                      console.log(comment.liked);
+                      comment.liked = !comment.liked;
+                      console.log(comment.liked);
+                    }}
+                  >
+                    {liked ? (
+                      <img
+                        src="/assets/icons/like-outline.png"
+                        alt="like"
+                        className="h-3 w-3"
+                      />
+                    ) : (
+                      <img
+                        src="/assets/icons/like-full.png"
+                        alt="like"
+                        className="h-3 w-3"
+                      />
+                    )}
+                    <p className="text-xxs">{comment.likes}</p>
+                  </div>
+                  <div className="flex gap-1">
+                    <img
+                      src="/assets/icons/bubble-chat.png"
+                      alt="like"
+                      className="h-3 w-3"
+                    />
+                    <p className="text-xxs">{comment.replies.length}</p>
+                  </div>
+                </div>
               </div>
-              <div className="flex gap-1">
-                <img
-                  src="/assets/icons/bubble-chat.png"
-                  alt="like"
-                  className="h-3 w-3"
-                />
-                <p className="text-xxs">{comment.replies.length}</p>
-              </div>
-            </div>
-          </div>
-        ))}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

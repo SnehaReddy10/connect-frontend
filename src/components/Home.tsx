@@ -1,6 +1,7 @@
 import Issues from './Issues';
 
 const Home = () => {
+  console.log(this);
   return (
     <div className="flex flex-col justify-center items-center mt-10">
       <div className="text-2xl font-sans font-bold text-center">
