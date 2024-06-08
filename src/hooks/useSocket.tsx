@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
-function useSocket() {
+function useSocket(roomId: string) {
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
   useEffect(() => {
-    const websocketInstance = new WebSocket('ws://localhost:8080');
+    const websocketInstance = new WebSocket(`ws://localhost:8080/${roomId}`);
     websocketInstance.onopen = () => {
       console.log('Web socket connection established');
     };
@@ -20,9 +20,9 @@ function useSocket() {
     setSocket(websocketInstance);
 
     return () => {
-      socket?.close();
+      websocketInstance.close();
     };
-  });
+  }, [roomId]);
   return socket;
 }
 

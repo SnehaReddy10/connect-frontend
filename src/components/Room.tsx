@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useSocket from '../hooks/useSocket';
 import { TYPE_ID, TYPE_MESSAGE } from '../constants/Constants';
 import { v4 as uuidv4 } from 'uuid';
+import { useLocation } from 'react-router-dom';
 
 const issue = {
   id: 7,
@@ -36,11 +37,12 @@ const issue = {
 };
 
 const Room = () => {
-  const [liked, setLiked] = useState([]);
+  const { pathname } = useLocation();
+  const roomId = pathname.slice(6, 7);
   const [targetId, setTargetId] = useState('');
+  const [currentMessage, setCurrentMessage] = useState('');
   const [latestMessages, setLatestMessages] = useState<any[]>([]);
-
-  const socket = useSocket();
+  const socket = useSocket(roomId);
 
   useEffect(() => {
     if (socket) {
@@ -51,16 +53,23 @@ const Room = () => {
         } else if (parsedData.type == TYPE_MESSAGE) {
           setLatestMessages((m) => [
             ...m,
-            { id: uuidv4(), message: parsedData.message },
+            { id: uuidv4(), message: parsedData.message, mine: false },
           ]);
         }
       };
     }
+
+    return () => {
+      if (socket) {
+        socket.close();
+      }
+    };
   }, [socket]);
 
   if (!socket) {
     return <div>Connecting to server</div>;
   }
+
   return (
     <div className="mt-10">
       <div className="flex flex-col gap-4">
@@ -69,60 +78,59 @@ const Room = () => {
         </h3>
         <p className="text-xxs text-slate-300">{issue.description}</p>
         <div className="relative border border-slate-300 min-h-screen p-4 rounded-md">
-          {issue.comments.map((comment: any, i: number) => {
+          {latestMessages.map((comment: any, i: number) => {
             return (
               <div
-                style={{ top: `${i * 5}rem` }}
-                className={`absolute flex gap-10 w-max items-center justify-between border border-slate-300 ${
+                key={comment.id}
+                style={{ top: `${i * 3}rem` }}
+                className={`absolute bg-slate-800 flex gap-10 w-max items-center justify-between border border-slate-300 ${
                   comment.mine
                     ? `rounded-ee-xl rounded-l-xl end-4`
-                    : 'rounded-ee-xl rounded-l-xl start-4'
+                    : 'rounded-es-xl rounded-r-xl start-4'
                 } p-3 m-1`}
               >
                 <div className="flex gap-2 items-center">
-                  <img
-                    src=""
-                    alt=""
-                    className="rounded-full border border-slate-300 h-8 w-8"
-                  />
-                  <h4 className="text-slate-300 text-xs">{comment.message}</h4>
-                </div>
-                <div className="flex gap-2">
-                  <div
-                    className="flex gap-1"
-                    onClick={() => {
-                      console.log(comment.liked);
-                      comment.liked = !comment.liked;
-                      console.log(comment.liked);
-                    }}
-                  >
-                    {liked ? (
-                      <img
-                        src="/assets/icons/like-outline.png"
-                        alt="like"
-                        className="h-3 w-3"
-                      />
-                    ) : (
-                      <img
-                        src="/assets/icons/like-full.png"
-                        alt="like"
-                        className="h-3 w-3"
-                      />
-                    )}
-                    <p className="text-xxs">{comment.likes}</p>
-                  </div>
-                  <div className="flex gap-1">
-                    <img
-                      src="/assets/icons/bubble-chat.png"
-                      alt="like"
-                      className="h-3 w-3"
-                    />
-                    <p className="text-xxs">{comment.replies.length}</p>
-                  </div>
+                  <h4 className="text-slate-300 text-xs px-6">
+                    {comment.message}
+                  </h4>
                 </div>
               </div>
             );
           })}
+
+          <div className="absolute end-4 bottom-4 flex gap-3">
+            <input
+              onChange={(e) => setCurrentMessage(e.target.value)}
+              className="px-4 py-1 bg-slate-200 text-black"
+              type="text"
+              value={currentMessage}
+              placeholder="Message"
+            />
+            <button
+              onClick={() => {
+                console.log({
+                  from: targetId,
+                  roomId,
+                  message: currentMessage,
+                });
+                socket.send(
+                  JSON.stringify({
+                    from: targetId,
+                    roomId,
+                    message: currentMessage,
+                  })
+                );
+                setLatestMessages((m) => [
+                  ...m,
+                  { id: uuidv4(), message: currentMessage, mine: true },
+                ]);
+                setCurrentMessage('');
+              }}
+              className="text-[0.55rem] font-sans font-bold px-4 py-1 rounded-sm bg-slate-500 hover:bg-slate-600"
+            >
+              SEND
+            </button>
+          </div>
         </div>
       </div>
     </div>
