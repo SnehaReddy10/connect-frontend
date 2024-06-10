@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Issues from './components/Issues';
 import Room from './components/Room';
 import Footer from './components/Footer';
+import Register from './components/Register';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/issues" element={<Issues />} />
           <Route path="/room/:id" element={<Room />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
       <Footer />

@@ -27,7 +27,9 @@ const Navbar = () => {
         </div>
         <div className="flex">
           <div className="nav-item">LOGIN</div>
-          <div className="nav-item">REGISTER</div>
+          <div className="nav-item">
+            <Link to="register">REGISTER</Link>
+          </div>
           <div className="nav-item hidden">LOGOUT</div>
         </div>
       </div>
