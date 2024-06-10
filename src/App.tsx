@@ -5,6 +5,7 @@ import Issues from './components/Issues';
 import Room from './components/Room';
 import Footer from './components/Footer';
 import Register from './components/Register';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/issues" element={<Issues />} />
           <Route path="/room/:id" element={<Room />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
       <Footer />

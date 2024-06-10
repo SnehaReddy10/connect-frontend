@@ -26,7 +26,9 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex">
-          <div className="nav-item">LOGIN</div>
+          <div className="nav-item">
+            <Link to="login">LOGIN</Link>
+          </div>
           <div className="nav-item">
             <Link to="register">REGISTER</Link>
           </div>
