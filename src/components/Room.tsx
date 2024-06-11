@@ -50,6 +50,15 @@ const Room = () => {
         const parsedData = JSON.parse(event.data);
         if (parsedData.type == TYPE_ID) {
           setTargetId(parsedData.id);
+          setLatestMessages(() =>
+            parsedData.messages.map((x: any) => {
+              return {
+                id: uuidv4(),
+                message: x.message,
+                mine: x.from == parsedData.id,
+              };
+            })
+          );
         } else if (parsedData.type == TYPE_MESSAGE) {
           setLatestMessages((m) => [
             ...m,

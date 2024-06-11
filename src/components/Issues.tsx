@@ -47,7 +47,7 @@ const Issues = () => {
           issues.map((issue: Issue) => (
             <Link to={`/room/${issue._id}`}>
               <Card>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 px-6">
                   <h3 className="text-xs font-semibold uppercase">
                     {issue.title}
                   </h3>
