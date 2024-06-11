@@ -10,7 +10,7 @@ import {
 const initialState = {
   loading: false,
   token: null,
-  error: '',
+  error: null,
 };
 
 export const userReducer = (state = initialState, action: any) => {
@@ -25,7 +25,7 @@ export const userReducer = (state = initialState, action: any) => {
       return {
         loading: false,
         token: action.payload,
-        error: '',
+        error: null,
       };
     case REGISTER_USER_FAILED:
       return {
@@ -39,11 +39,10 @@ export const userReducer = (state = initialState, action: any) => {
         loading: true,
       };
     case LOGIN_USER_SUCCESS:
-      localStorage.setItem('token', action.payload);
       return {
         loading: false,
         token: action.payload,
-        error: '',
+        error: null,
       };
     case LOGIN_USER_FAILED:
       return {

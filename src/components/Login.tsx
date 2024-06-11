@@ -1,17 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { loginUser } from '../redux/user/userService';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Spinner from './Spinner';
+import { useNavigate } from 'react-router-dom';
+import { TOKEN } from '../constants/Constants';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { loading, token, error } = useSelector((s: any) => s.user);
 
-  const handleLoginUser = () => {
-    loginUser({ email, password }, dispatch);
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+      localStorage.setItem(TOKEN, token);
+    }
+  }, [token]);
+
+  const handleLoginUser = async () => {
+    await loginUser({ email, password }, dispatch);
     setEmail('');
     setPassword('');
+    console.log('login error', error, token);
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (error) {
+    return (
+      <div className="relative">
+        <div className="absolute end-4 animate-fade-in-out transition ease rounded-sm p-1 w-1/7 bg-red-400 text-white">
+          {error}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-20 flex flex-col items-center justify-center gap-6">

@@ -17,10 +17,10 @@ export const registerUser = (user: User, dispatch: any) => {
       const token = response.data.token;
       dispatch(registerUserSuccess(token));
     })
-    .catch((err) => dispatch(registerUserFailed(err)));
+    .catch((err) => dispatch(registerUserFailed(err.response.data.error)));
 };
 
-export const loginUser = (
+export const loginUser = async (
   user: { email: string; password: string },
   dispatch: any
 ) => {
@@ -31,5 +31,7 @@ export const loginUser = (
       const token = response.data.token;
       dispatch(loginUserSuccess(token));
     })
-    .catch((err) => dispatch(loginUserFailed(err)));
+    .catch((err: any) => {
+      dispatch(loginUserFailed(err.response.data.error));
+    });
 };
