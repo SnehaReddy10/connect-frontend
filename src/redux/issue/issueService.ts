@@ -4,13 +4,14 @@ import {
   getIssuesRequest,
   getIssuesSuccess,
 } from './issueActions';
+import { TOKEN } from '../../constants/Constants';
 
 export const getAllIssues = (dispatch: any) => {
   dispatch(getIssuesRequest());
   axios
     .get(`${import.meta.env.VITE_BACKEND_URL}/issue`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem(TOKEN)}`,
       },
     })
     .then((response: any) => {
