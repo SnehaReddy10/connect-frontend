@@ -14,8 +14,8 @@ function Login() {
 
   useEffect(() => {
     if (token) {
-      navigate('/');
       localStorage.setItem(TOKEN, token);
+      navigate('/');
     }
   }, [token]);
 
@@ -23,7 +23,6 @@ function Login() {
     await loginUser({ email, password }, dispatch);
     setEmail('');
     setPassword('');
-    console.log('login error', error, token);
   };
 
   if (loading) {

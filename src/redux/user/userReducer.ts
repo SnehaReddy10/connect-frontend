@@ -27,7 +27,6 @@ export const userReducer = (state = initialState, action: any) => {
         loading: true,
       };
     case REGISTER_USER_SUCCESS:
-      localStorage.setItem(TOKEN, action.payload);
       return {
         loading: false,
         token: action.payload,
