@@ -1,5 +1,8 @@
 import axios from 'axios';
 import {
+  getIssueByIdFailed,
+  getIssueByIdRequest,
+  getIssueByIdSuccess,
   getIssuesFailed,
   getIssuesRequest,
   getIssuesSuccess,
@@ -21,5 +24,23 @@ export const getAllIssues = (dispatch: any) => {
     .catch((err: any) => {
       console.log('Get All Issues Failed', err.response.data.error);
       dispatch(getIssuesFailed(err));
+    });
+};
+
+export const getIssuesById = (dispatch: any, issueId: string) => {
+  dispatch(getIssueByIdRequest());
+  axios
+    .get(`${import.meta.env.VITE_BACKEND_URL}/issue/${issueId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(TOKEN)}`,
+      },
+    })
+    .then((response: any) => {
+      const issue = response.data.issue;
+      dispatch(getIssueByIdSuccess(issue));
+    })
+    .catch((err: any) => {
+      console.log('Get All Issues Failed', err.response.data.error);
+      dispatch(getIssueByIdFailed(err));
     });
 };
