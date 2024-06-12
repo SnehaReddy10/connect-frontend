@@ -6,6 +6,7 @@ import {
   LOGIN_USER_FAILED,
   LOGIN_USER_REQUEST,
   LOGIN_USER_SUCCESS,
+  LOGOUT_USER_SUCCESS,
   REGISTER_USER_FAILED,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
@@ -71,6 +72,12 @@ export const userReducer = (state = initialState, action: any) => {
         loading: false,
         currentUser: null,
         error: action.payload,
+      };
+    case LOGOUT_USER_SUCCESS:
+      return {
+        loading: false,
+        token: null,
+        error: null,
       };
     default:
       return state;

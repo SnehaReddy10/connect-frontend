@@ -1,6 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { TOKEN } from '../constants/Constants';
+import { logoutUser } from '../redux/user/userService';
+import { useDispatch } from 'react-redux';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    logoutUser(dispatch);
+    localStorage.removeItem(TOKEN);
+    navigate('/');
+  };
+
   return (
     <div className="flex gap-32 justify-center text-xxs font-semibold tracking-widest">
       <Link to="/">
@@ -25,14 +37,18 @@ const Navbar = () => {
             <Link to="/issues">MY CONCERNS</Link>
           </div>
         </div>
-        <div className="flex">
+        <div className={`flex ${localStorage.getItem(TOKEN) ? 'hidden' : ''}`}>
           <div className="nav-item">
             <Link to="login">LOGIN</Link>
           </div>
           <div className="nav-item">
             <Link to="register">REGISTER</Link>
           </div>
-          <div className="nav-item hidden">LOGOUT</div>
+        </div>
+        <div
+          className={`nav-item ${localStorage.getItem(TOKEN) ? '' : 'hidden'}`}
+        >
+          <button onClick={handleLogout}>LOGOUT</button>
         </div>
       </div>
     </div>

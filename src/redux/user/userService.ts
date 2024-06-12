@@ -6,6 +6,7 @@ import {
   loginUserFailed,
   loginUserRequest,
   loginUserSuccess,
+  logoutUserSuccess,
   registerUserFailed,
   registerUserRequest,
   registerUserSuccess,
@@ -38,6 +39,10 @@ export const loginUser = async (
     .catch((err: any) => {
       dispatch(loginUserFailed(err.response.data.error));
     });
+};
+
+export const logoutUser = async (dispatch: any) => {
+  dispatch(logoutUserSuccess());
 };
 
 export const getUser = async (dispatch: any) => {

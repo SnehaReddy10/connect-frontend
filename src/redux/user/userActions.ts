@@ -7,6 +7,7 @@ import {
   LOGIN_USER_FAILED,
   LOGIN_USER_REQUEST,
   LOGIN_USER_SUCCESS,
+  LOGOUT_USER_SUCCESS,
   REGISTER_USER_FAILED,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
@@ -69,5 +70,11 @@ export const getUserFailed = (error: any) => {
   return {
     type: GET_USER_FAILED,
     payload: error,
+  };
+};
+
+export const logoutUserSuccess = () => {
+  return {
+    type: LOGOUT_USER_SUCCESS,
   };
 };
