@@ -1,4 +1,7 @@
 import {
+  GET_USER_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
   LOGIN_USER_FAILED,
   LOGIN_USER_REQUEST,
   LOGIN_USER_SUCCESS,
@@ -11,6 +14,7 @@ const initialState = {
   loading: false,
   token: null,
   error: null,
+  user: null,
 };
 
 export const userReducer = (state = initialState, action: any) => {
@@ -48,6 +52,23 @@ export const userReducer = (state = initialState, action: any) => {
       return {
         loading: false,
         token: null,
+        error: action.payload,
+      };
+    case GET_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_USER_SUCCESS:
+      return {
+        loading: false,
+        user: action.payload,
+        error: null,
+      };
+    case GET_USER_FAILED:
+      return {
+        loading: false,
+        user: null,
         error: action.payload,
       };
     default:

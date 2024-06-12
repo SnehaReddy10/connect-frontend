@@ -1,5 +1,8 @@
 import axios from 'axios';
 import {
+  getUserFailed,
+  getUserRequest,
+  getUserSuccess,
   loginUserFailed,
   loginUserRequest,
   loginUserSuccess,
@@ -8,6 +11,7 @@ import {
   registerUserSuccess,
 } from './userActions';
 import { User } from '../../models/user.model';
+import { TOKEN } from '../../constants/Constants';
 
 export const registerUser = (user: User, dispatch: any) => {
   dispatch(registerUserRequest());
@@ -33,5 +37,20 @@ export const loginUser = async (
     })
     .catch((err: any) => {
       dispatch(loginUserFailed(err.response.data.error));
+    });
+};
+
+export const getUser = async (dispatch: any) => {
+  dispatch(getUserRequest());
+  axios
+    .get(`${import.meta.env.VITE_BACKEND_URL}/user`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem(TOKEN)}` },
+    })
+    .then((response) => {
+      const user = response.data.user;
+      dispatch(getUserSuccess(user));
+    })
+    .catch((err: any) => {
+      dispatch(getUserFailed(err.response.data.error));
     });
 };

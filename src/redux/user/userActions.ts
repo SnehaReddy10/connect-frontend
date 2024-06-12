@@ -1,5 +1,9 @@
 import { IUser } from '../../../../backend/src/interfaces/user.interface';
+import { User } from '../../models/user.model';
 import {
+  GET_USER_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
   LOGIN_USER_FAILED,
   LOGIN_USER_REQUEST,
   LOGIN_USER_SUCCESS,
@@ -44,6 +48,26 @@ export const loginUserSuccess = (token: string) => {
 export const loginUserFailed = (error: any) => {
   return {
     type: LOGIN_USER_FAILED,
+    payload: error,
+  };
+};
+
+export const getUserRequest = () => {
+  return {
+    type: GET_USER_REQUEST,
+  };
+};
+
+export const getUserSuccess = (user: User) => {
+  return {
+    type: GET_USER_SUCCESS,
+    payload: user,
+  };
+};
+
+export const getUserFailed = (error: any) => {
+  return {
+    type: GET_USER_FAILED,
     payload: error,
   };
 };
