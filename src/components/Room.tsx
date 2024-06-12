@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import useSocket from '../hooks/useSocket';
 import { TYPE_ID, TYPE_MESSAGE } from '../constants/Constants';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocation } from 'react-router-dom';
+import { UserContext } from '../context/user.context';
 
 const issue = {
   id: 7,
@@ -43,6 +44,7 @@ const Room = () => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [latestMessages, setLatestMessages] = useState<any[]>([]);
   const socket = useSocket(roomId);
+  const userId = useContext(UserContext);
 
   useEffect(() => {
     if (socket) {
@@ -55,7 +57,7 @@ const Room = () => {
               return {
                 id: uuidv4(),
                 message: x.message,
-                mine: x.from == parsedData.id,
+                mine: x.userId == userId,
               };
             })
           );
@@ -73,7 +75,7 @@ const Room = () => {
         socket.close();
       }
     };
-  }, [socket]);
+  }, [socket, userId]);
 
   if (!socket) {
     return <div>Connecting to server</div>;
@@ -118,12 +120,14 @@ const Room = () => {
             <button
               onClick={() => {
                 console.log({
+                  userId: userId,
                   from: targetId,
                   roomId,
                   message: currentMessage,
                 });
                 socket.send(
                   JSON.stringify({
+                    userId: userId,
                     from: targetId,
                     roomId,
                     message: currentMessage,

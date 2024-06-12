@@ -1,3 +1,4 @@
+import { TOKEN } from '../../constants/Constants';
 import {
   GET_USER_FAILED,
   GET_USER_REQUEST,
@@ -14,7 +15,7 @@ const initialState = {
   loading: false,
   token: null,
   error: null,
-  user: null,
+  currentUser: null,
 };
 
 export const userReducer = (state = initialState, action: any) => {
@@ -25,7 +26,7 @@ export const userReducer = (state = initialState, action: any) => {
         loading: true,
       };
     case REGISTER_USER_SUCCESS:
-      localStorage.setItem('token', action.payload);
+      localStorage.setItem(TOKEN, action.payload);
       return {
         loading: false,
         token: action.payload,
@@ -62,13 +63,13 @@ export const userReducer = (state = initialState, action: any) => {
     case GET_USER_SUCCESS:
       return {
         loading: false,
-        user: action.payload,
+        currentUser: action.payload,
         error: null,
       };
     case GET_USER_FAILED:
       return {
         loading: false,
-        user: null,
+        currentUser: null,
         error: action.payload,
       };
     default:
