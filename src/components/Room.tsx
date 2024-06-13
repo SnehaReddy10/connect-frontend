@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import { getIssuesById } from '../redux/issue/issueService';
 import { useDispatch, useSelector } from 'react-redux';
+import Spinner from './Spinner';
 
 const Room = () => {
   const { pathname } = useLocation();
@@ -53,6 +54,20 @@ const Room = () => {
 
   if (!socket) {
     return <div>Connecting to server</div>;
+  }
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (error) {
+    return (
+      <div className="relative">
+        <div className="absolute end-4 animate-fade-in-out transition ease rounded-sm p-1 w-1/7 bg-red-400 text-white">
+          {error}
+        </div>
+      </div>
+    );
   }
 
   return (
