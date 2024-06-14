@@ -40,7 +40,7 @@ function Login() {
   }
 
   return (
-    <div className="mt-20 flex flex-col items-center justify-center gap-6">
+    <div className="mt-20 flex flex-col items-center justify-center gap-6 animate-slideInVertical">
       <h5 className="text-base text-slate-100">
         Welcome back. Please login to continue
       </h5>
