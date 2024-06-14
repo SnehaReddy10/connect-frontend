@@ -1,7 +1,6 @@
 import Issues from './Issues';
 
 const Home = () => {
-  console.log(this);
   return (
     <div className="flex flex-col justify-center items-center mt-10 animate-fadeIn">
       <div className="text-2xl font-sans font-bold text-center">
@@ -29,7 +28,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="pb-10">
+      <div className="pb-10 mb-10">
         <Issues />
       </div>
     </div>

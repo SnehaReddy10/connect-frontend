@@ -10,9 +10,9 @@ import { UserProvider } from './context/user.context';
 
 function App() {
   return (
-    <div>
+    <div className="relative">
       <UserProvider>
-        <div className="bg-gradient h-full w-full text-white pt-1 pb-4 px-4 min-h-screen">
+        <div className="bg-gradient text-white px-4 min-h-screen">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -22,7 +22,9 @@ function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </div>
-        <Footer />
+        <div className="absolute bottom-0 w-full">
+          <Footer />
+        </div>
       </UserProvider>
     </div>
   );
