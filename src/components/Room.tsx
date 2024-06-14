@@ -71,7 +71,7 @@ const Room = () => {
   }
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 animate-fadeIn">
       {issue && (
         <div className="flex flex-col gap-4">
           <h3 className="text-xl font-sans tracking-widest font-semibold uppercase">
