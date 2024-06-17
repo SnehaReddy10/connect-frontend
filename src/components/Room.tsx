@@ -99,7 +99,7 @@ const Room = () => {
               );
             })}
 
-            <div className="absolute end-4 bottom-4 flex gap-3">
+            <div className="absolute end-4 bottom-14 flex gap-3">
               <input
                 onChange={(e) => setCurrentMessage(e.target.value)}
                 className="px-4 py-1 bg-slate-200 text-black"
