@@ -42,7 +42,7 @@ const Navbar = () => {
             <Link to="login">LOGIN</Link>
           </div>
           <div className="nav-item">
-            <Link to="register">REGISTER</Link>
+            <Link to="register">JOIN THE COMMUNITY</Link>
           </div>
         </div>
         <div

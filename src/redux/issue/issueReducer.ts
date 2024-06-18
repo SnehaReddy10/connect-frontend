@@ -25,6 +25,7 @@ export const issueReducer = (state = initialState, action: any) => {
       return {
         loading: false,
         issues: action.payload,
+        issue: action.payload[0],
         error: '',
       };
     case GET_ISSUES_FAILED:
