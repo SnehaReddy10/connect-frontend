@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="relative">
       <UserProvider>
-        <div className="bg-gradient text-white px-4 min-h-screen">
+        <div className="bg-gradient text-white px-4 py-4 min-h-screen w-max md:w-full">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -22,7 +22,7 @@ function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </div>
-        <div className="absolute bottom-0 w-full">
+        <div className="absolute bottom-0 md:w-full">
           <Footer />
         </div>
       </UserProvider>

@@ -11,19 +11,19 @@ const Home = () => {
           Report, Brainstorm, Innovate, Resolve
         </p>
       </div>
-      <div className="flex mt-10 pb-20">
+      <div className="flex flex-col md:flex-row mt-10 pb-20">
         <div className="translate-y-20 translate-x-28">
           <img
             src="/assets/imgs/hero-2.jpg"
             alt="brain"
-            className="w-[40vw] h-[60vh]"
+            className="w-96 md:w-[40vw] h-[60vh]"
           />
         </div>
         <div className="z-10">
           <img
             src="/assets/imgs/brain-2.png"
             alt="brain"
-            className="w-[40vw] h-[60vh]"
+            className="w-96 md:w-[40vw] h-[60vh]"
           />
         </div>
       </div>

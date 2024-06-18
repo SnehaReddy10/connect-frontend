@@ -42,7 +42,7 @@ const Issues = () => {
           <p className="text-xxs font-semibold tracking-wider">Filter</p>
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-10">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-10">
         {issues &&
           issues.map((issue: Issue) => (
             <Link to={`/room/${issue._id}`}>

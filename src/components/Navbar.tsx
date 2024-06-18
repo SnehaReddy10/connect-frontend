@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex gap-32 justify-center text-xxs font-semibold tracking-widest animate-fadeIn">
+    <div className="flex gap-2 md:gap-32 justify-center text-xxs font-semibold tracking-widest animate-fadeIn">
       <Link to="/">
         <div className="flex justify-center items-center">
           <img
