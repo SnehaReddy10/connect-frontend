@@ -101,7 +101,9 @@ const Room = () => {
 
             <div className="absolute end-4 bottom-14 flex gap-3">
               <input
-                onChange={(e) => setCurrentMessage(e.target.value)}
+                onChange={(e) =>
+                  e.target.value !== '' ? setCurrentMessage(e.target.value) : ''
+                }
                 className="px-4 py-1 bg-slate-200 text-black"
                 type="text"
                 value={currentMessage}
@@ -109,25 +111,21 @@ const Room = () => {
               />
               <button
                 onClick={() => {
-                  console.log({
-                    userId: userId,
-                    from: targetId,
-                    roomId,
-                    message: currentMessage,
-                  });
-                  socket.send(
-                    JSON.stringify({
-                      userId: userId,
-                      from: targetId,
-                      roomId,
-                      message: currentMessage,
-                    })
-                  );
-                  setLatestMessages((m) => [
-                    ...m,
-                    { id: uuidv4(), message: currentMessage, mine: true },
-                  ]);
-                  setCurrentMessage('');
+                  if (currentMessage !== '') {
+                    socket.send(
+                      JSON.stringify({
+                        userId: userId,
+                        from: targetId,
+                        roomId,
+                        message: currentMessage,
+                      })
+                    );
+                    setLatestMessages((m) => [
+                      ...m,
+                      { id: uuidv4(), message: currentMessage, mine: true },
+                    ]);
+                    setCurrentMessage('');
+                  }
                 }}
                 className="text-[0.55rem] font-sans font-bold px-4 py-1 rounded-sm bg-slate-500 hover:bg-slate-600"
               >

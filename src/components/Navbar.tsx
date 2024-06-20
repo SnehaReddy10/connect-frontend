@@ -33,9 +33,9 @@ const Navbar = () => {
           <div className="nav-item">
             <Link to="/issues">ISSUES</Link>
           </div>
-          <div className="nav-item">
+          {/* <div className="nav-item">
             <Link to="/issues">MY CONCERNS</Link>
-          </div>
+          </div> */}
         </div>
         <div className={`flex ${localStorage.getItem(TOKEN) ? 'hidden' : ''}`}>
           <div className="nav-item">
